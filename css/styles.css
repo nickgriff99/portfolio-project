@@ -45,11 +45,12 @@
 
 .modal-header .fa-times {
   font-size: 1.5rem;
+  cursor: pointer;
   transition: all 0.5s ease-in;
 }
 
 .modal-header .fa-times:hover {
-  transition: scale(1.1);
+  transform: scale(1.1);
   transition: all 0.5s ease-in;
 }
 
