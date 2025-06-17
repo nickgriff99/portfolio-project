@@ -25,10 +25,9 @@ const closeModal = document.querySelectorAll(modalClose);
 const setActive = (elm, selector) => {
   if (document.querySelector(`${selector}.${active}`) !== null) {
     document.querySelector(`${selector}.${active}`).classList.remove(active);
-  } else {
-    elm.classList.add(active);
   }
-}
+  elm.classList.add(active);
+};
 
 const setTheme = (val) => {
   if (val === dark) {
@@ -38,7 +37,19 @@ const setTheme = (val) => {
     root.setAttribute(dataTheme, light);
     localStorage.setItem(theme, light);
   }
-}
+};
+
+if (currentTheme) {
+  root.setAttribute(dataTheme, currentTheme);
+  switcher.forEach((btn) => {
+    btn.classList.remove(active);
+  });
+  if (currentTheme === dark) {
+    switcher[1].classList.add(active);
+  } else {
+    switcher[0].classList.add(active);
+  }
+};
 
 toggleTheme.addEventListener('click', function() {
   const tab = this.parentElement.parentElement;
@@ -55,7 +66,7 @@ for (const elm of switcher) {
     setActive(elm, switcherBtn);
     setTheme(toggle);
   })
-}
+};
 
 // Full site modal "open buttons"
 for (const elm of openModal) {
@@ -63,12 +74,12 @@ for (const elm of openModal) {
     const modalId = this.dataset.open;
     document.getElementById(modalId).classList.add(isVisible);
   })
-}
+};
 
 // Full site modal "close buttons"
 for (const elm of closeModal) {
   elm.addEventListener('click', function () {
     this.parentElement.parentElement.classList.remove(isVisible);
   })
-}
+};
 
