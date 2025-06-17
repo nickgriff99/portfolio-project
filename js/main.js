@@ -11,14 +11,18 @@ const modalOpen = '[data-open]';
 const modalClose = '[data-close]';
 const isVisible = 'is-visible';
 
+const dataFilter = '[data-filter]';
+const portfolioData = '[data-item]';
+
 const root = document.documentElement;
 
-/* Theme */
 const toggleTheme = document.querySelector(themeTab);
 const switcher = document.querySelectorAll(switcherBtn);
 const currentTheme = localStorage.getItem(theme);
 
-/* Modal */
+const filterLink = document.querySelectorAll(dataFilter);
+const portfolioItems = document.querySelectorAll(portfolioData);
+
 const openModal = document.querySelectorAll(modalOpen);
 const closeModal = document.querySelectorAll(modalClose);
 
@@ -68,7 +72,22 @@ for (const elm of switcher) {
   })
 };
 
-// Full site modal "open buttons"
+for (const link of filterLink) {
+  link.addEventListener('click', function() {
+    setActive(this, '.filter-link');
+    const filter = this.dataset.filter;
+    portfolioItems.forEach((card) => {
+      if (filter === 'all') {
+        card.style.display = 'block';
+      } else if (card.dataset.item === filter) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    })
+  })
+};
+
 for (const elm of openModal) {
   elm.addEventListener('click', function () {
     const modalId = this.dataset.open;
@@ -76,7 +95,6 @@ for (const elm of openModal) {
   })
 };
 
-// Full site modal "close buttons"
 for (const elm of closeModal) {
   elm.addEventListener('click', function () {
     this.parentElement.parentElement.classList.remove(isVisible);
