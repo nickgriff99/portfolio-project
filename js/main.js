@@ -16,16 +16,98 @@ const portfolioData = '[data-item]';
 
 const root = document.documentElement;
 
+const portfolioItems = [
+  {
+    id: 1,
+    category: 'web',
+    image: './assets/images/portfolio-1.jpg',
+    type: 'Web Development',
+    title: 'Food Website'
+  },
+  {
+    id: 2,
+    category: 'web',
+    image: './assets/images/portfolio-2.jpg',
+    type: 'Web Development',
+    title: 'Skate Website'
+  },
+  {
+    id: 3,
+    category: 'web',
+    image: './assets/images/portfolio-3.jpg',
+    type: 'Web Development',
+    title: 'Eating Website'
+  },
+  {
+    id: 4,
+    category: 'ui',
+    image: './assets/images/portfolio-4.jpg',
+    type: 'UI Design',
+    title: 'Cool Design'
+  },
+  {
+    id: 5,
+    category: 'app',
+    image: './assets/images/portfolio-5.jpg',
+    type: 'App Development',
+    title: 'Game App'
+  },
+  {
+    id: 6,
+    category: 'app',
+    image: './assets/images/portfolio-6.jpg',
+    type: 'App Development',
+    title: 'Gambling App'
+  },
+  {
+    id: 7,
+    category: 'app',
+    image: './assets/images/portfolio-7.jpg',
+    type: 'App Development',
+    title: 'Money App'
+  },
+  {
+    id: 8,
+    category: 'ui',
+    image: './assets/images/portfolio-8.jpg',
+    type: 'UI Design',
+    title: 'Fantastic Design'
+  }
+];
+
 const toggleTheme = document.querySelector(themeTab);
 const switcher = document.querySelectorAll(switcherBtn);
 const currentTheme = localStorage.getItem(theme);
 
 const filterLink = document.querySelectorAll(dataFilter);
-const portfolioItems = document.querySelectorAll(portfolioData);
+const portfolioGrid = document.querySelector('.portfolio-grid');
 const searchBox = document.querySelector('#search');
 
 const openModal = document.querySelectorAll(modalOpen);
 const closeModal = document.querySelectorAll(modalClose);
+
+const createPortfolioCards = (items) => {
+  portfolioGrid.innerHTML = '';
+  items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'portfolio-card';
+    card.setAttribute('data-item', item.category);
+    
+    card.innerHTML = `
+      <div class="card-body">
+        <img src="${item.image}" alt="portfolio-icon">
+        <a href="#" class="card-popup-box">
+          <div>${item.type}</div>
+          <h3>${item.title}</h3>
+        </a>
+      </div>
+    `;
+    
+    portfolioGrid.appendChild(card);
+  });
+};
+
+createPortfolioCards(portfolioItems);
 
 const setActive = (elm, selector) => {
   if (document.querySelector(`${selector}.${active}`) !== null) {
@@ -75,13 +157,12 @@ for (const elm of switcher) {
 
 searchBox.addEventListener('keyup', (e) => {
   const searchInput = e.target.value.toLowerCase().trim();
-  portfolioItems.forEach((card) => {
-    if (card.dataset.item.includes(searchInput)) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
-  })
+  const filteredItems = portfolioItems.filter(item => 
+    item.title.toLowerCase().includes(searchInput) ||
+    item.type.toLowerCase().includes(searchInput) ||
+    item.category.toLowerCase().includes(searchInput)
+  );
+  createPortfolioCards(filteredItems);
 });
 
 
@@ -89,15 +170,13 @@ for (const link of filterLink) {
   link.addEventListener('click', function() {
     setActive(this, '.filter-link');
     const filter = this.dataset.filter;
-    portfolioItems.forEach((card) => {
-      if (filter === 'all') {
-        card.style.display = 'block';
-      } else if (card.dataset.item === filter) {
-        card.style.display = 'block';
-      } else {
-        card.style.display = 'none';
-      }
-    })
+    
+    if (filter === 'all') {
+      createPortfolioCards(portfolioItems);
+    } else {
+      const filteredItems = portfolioItems.filter(item => item.category === filter);
+      createPortfolioCards(filteredItems);
+    }
   })
 };
 
