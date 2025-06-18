@@ -92,14 +92,15 @@ const createPortfolioCards = (items) => {
     const card = document.createElement('div');
     card.className = 'portfolio-card';
     card.setAttribute('data-item', item.category);
-    
     card.innerHTML = `
       <div class="card-body">
-        <img src="${item.image}" alt="portfolio-icon">
-        <a href="#" class="card-popup-box">
-          <div>${item.type}</div>
-          <h3>${item.title}</h3>
-        </a>
+        <div class="container-fluid">
+          <img src="${item.image}" alt="portfolio-icon">
+          <a href="#" class="card-popup-box">
+            <div>${item.type}</div>
+            <h3>${item.title}</h3>
+          </a>
+        </div>
       </div>
     `;
     
@@ -170,7 +171,6 @@ for (const link of filterLink) {
   link.addEventListener('click', function() {
     setActive(this, '.filter-link');
     const filter = this.dataset.filter;
-    
     if (filter === 'all') {
       createPortfolioCards(portfolioItems);
     } else {
@@ -189,7 +189,10 @@ for (const elm of openModal) {
 
 for (const elm of closeModal) {
   elm.addEventListener('click', function () {
-    this.parentElement.parentElement.classList.remove(isVisible);
+    const modal = this.closest('.full-site-modal') || this.closest('.modal');
+    if (modal) {
+      modal.classList.remove(isVisible);
+    }
   })
 };
 
