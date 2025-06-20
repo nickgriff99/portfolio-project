@@ -1,11 +1,3 @@
-:root {
-  --marquee-width: 80vw;
-  --marquee-height: 15vh;
-  --marquee-elms-displayed: 5;
-  --marquee-elm-width: calc(var(--marquee-width) / var(--marquee-elms-displayed));
-  --marquee-duration-animation: calc(var(--marquee-elms) * 3s);
-}
-
 .page-block {
   background: var(--bg);
 }
@@ -49,6 +41,7 @@
   list-style: none;
   display: flex;
   height: 100%;
+  animation: scrolling var(--marquee-duration-animation) linear infinite;
 }
 
 .marquee-content li {
@@ -80,4 +73,9 @@
 .marquee:after {
   right: 0;
   background: linear-gradient(to left, var(--bg) 0%, transparent 100%);
+}
+
+@keyframes scrolling {
+  0% { transform: translateX(0) }
+  100% { transform: translateX(calc(-1 * var(--marquee-elm-width) * var(--marquee-elms))); }
 }
