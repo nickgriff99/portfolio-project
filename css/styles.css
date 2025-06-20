@@ -449,10 +449,6 @@
   height: 200px;
 }
 
-.about-img {
-  max-width: 25px;;
-}
-
 [data-animation="zoomInOut"].full-site-modal {
   transform: scale(0.2);
 }
